@@ -1,20 +1,43 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ titulo }} - Parfums D' Parfums{% endblock %}
+{% block title %}{{ titulo }} - {{ empresa }}{% endblock %}
 
 {% block content %}
     <h2>{{ titulo }}</h2>
-    
+    <p>Mostrando {{ total_productos }} productos disponibles.</p>
+
+    {# Directiva condicional para ofertas #}
     {% if hay_ofertas %}
-        <p style="color: green;"><strong>¡Aprovecha nuestros perfumes destacados y promociones de la semana!</strong></p>
+        <p style="color: green; font-weight: bold;">
+            ¡Aprovecha nuestras promociones exclusivas de la semana!
+        </p>
     {% endif %}
 
-    <h3>Nuestras Fragancias</h3>
-    <ul>
-    {% for perfume in perfumes %}
-        <li>
-            <strong>{{ perfume.nombre }}</strong> - Categoría: {{ perfume.categoria }} - ${{ perfume.precio }}
-        </li>
-    {% endfor %}
-    </ul>
+    <hr>
+
+    {# Bucle for para iterar el contexto #}
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        {% for perfume in perfumes %}
+            <div style="border: 1px solid #ccc; padding: 15px; border-radius: 5px; width: 200px;">
+                <h3>{{ perfume.nombre }}</h3>
+                
+                {% if perfume.destacado %}
+                    <span style="background-color: gold; padding: 2px 5px; font-size: 12px;">★ Destacado</span>
+                {% endif %}
+
+                <p><strong>Categoría:</strong> {{ perfume.categoria }}</p>
+                <p><strong>Formato:</strong> {{ perfume.ml }} ml</p>
+                <p><strong>Precio:</strong> ${{ perfume.precio }}</p>
+
+                {# Condicional de disponibilidad #}
+                {% if perfume.en_stock %}
+                    <p style="color: green;">✔ Disponible</p>
+                {% else %}
+                    <p style="color: red;">✖ Agotado</p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No se encontraron productos en el catálogo.</p>
+        {% endfor %}
+    </div>
 {% endblock %}
