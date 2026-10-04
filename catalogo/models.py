@@ -15,6 +15,7 @@ class Perfume(models.Model):
     ml = models.PositiveIntegerField('formato en ml', validators=[MinValueValidator(1)])
     en_stock = models.BooleanField('disponible', default=True)
     destacado = models.BooleanField(default=False)
+    imagen = models.ImageField('imagen', upload_to='perfumes/', blank=True)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:

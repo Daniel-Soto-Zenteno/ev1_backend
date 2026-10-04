@@ -2,6 +2,11 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 from .models import Perfume
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import override_settings
+from io import BytesIO
+from PIL import Image
+import tempfile
 
 
 class PerfumeCrudTests(TestCase):
@@ -82,3 +87,32 @@ class PerfumeCrudTests(TestCase):
         self.assertContains(self.client.get(reverse('historia_y_guia')), 'Cuida tu perfume')
         from django.contrib import admin
         self.assertIn(Perfume, admin.site._registry)
+
+    def imagen_prueba(self, nombre):
+        contenido = BytesIO()
+        Image.new('RGB', (4, 4), 'white').save(contenido, format='PNG')
+        return SimpleUploadedFile(nombre, contenido.getvalue(), content_type='image/png')
+
+    def test_imagen_crear_mostrar_conservar_reemplazar_y_quitar(self):
+        with tempfile.TemporaryDirectory() as carpeta, override_settings(MEDIA_ROOT=carpeta):
+            self.client.post(reverse('perfume_crear'), self.datos | {'imagen': self.imagen_prueba('frasco.png')})
+            perfume = Perfume.objects.get(nombre='Citrus Fresh')
+            self.assertTrue(perfume.imagen.storage.exists(perfume.imagen.name))
+            self.assertContains(self.client.get(reverse('lista_perfumes')), perfume.imagen.url)
+            url = reverse('perfume_editar', args=[perfume.pk])
+            anterior = perfume.imagen.name
+            self.client.post(url, self.datos)
+            perfume.refresh_from_db()
+            self.assertEqual(perfume.imagen.name, anterior)
+            self.client.post(url, self.datos | {'imagen': self.imagen_prueba('nuevo.png')})
+            perfume.refresh_from_db()
+            self.assertNotEqual(perfume.imagen.name, anterior)
+            self.client.post(url, self.datos | {'imagen-clear': 'on'})
+            perfume.refresh_from_db()
+            self.assertFalse(perfume.imagen)
+
+    def test_rechaza_archivo_que_no_es_imagen(self):
+        archivo = SimpleUploadedFile('falso.png', b'no es imagen', content_type='image/png')
+        response = self.client.post(reverse('perfume_crear'), self.datos | {'imagen': archivo})
+        self.assertIn('imagen', response.context['form'].errors)
+        self.assertEqual(Perfume.objects.count(), 1)

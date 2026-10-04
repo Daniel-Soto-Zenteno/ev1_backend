@@ -20,7 +20,7 @@ def lista_perfumes(request):
 @staff_member_required
 @require_http_methods(['GET', 'POST'])
 def perfume_crear(request):
-    form = PerfumeForm(request.POST if request.method == 'POST' else None)
+    form = PerfumeForm(request.POST if request.method == 'POST' else None, request.FILES if request.method == 'POST' else None)
     if request.method == 'POST' and form.is_valid():
         form.save()
         messages.success(request, 'Perfume creado correctamente.')
@@ -32,7 +32,7 @@ def perfume_crear(request):
 @require_http_methods(['GET', 'POST'])
 def perfume_editar(request, pk):
     perfume = get_object_or_404(Perfume, pk=pk)
-    form = PerfumeForm(request.POST if request.method == 'POST' else None, instance=perfume)
+    form = PerfumeForm(request.POST if request.method == 'POST' else None, request.FILES if request.method == 'POST' else None, instance=perfume)
     if request.method == 'POST' and form.is_valid():
         form.save()
         messages.success(request, 'Perfume actualizado correctamente.')

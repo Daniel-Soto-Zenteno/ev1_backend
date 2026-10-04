@@ -4,7 +4,7 @@
 <section class="form-panel">
 <h2>{{ accion }} perfume</h2>
 <p>Nombre, categoría, precio y formato son obligatorios.</p>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <div class="actions">
