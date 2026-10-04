@@ -32,8 +32,12 @@
         <h1>Parfums D' Parfums</h1>
         <nav>
             <a href="{% url 'lista_perfumes' %}">Catálogo</a> |
+<<<<<<< HEAD
             {% url 'contacto:contacto_formulario' as contacto_url %}
             <a href="{{ contacto_url|default:'/contacto/' }}">Contacto</a> |
+=======
+            <a href="{% url 'contacto:formulario' %}">Contacto</a> |
+>>>>>>> feature/contacto
             <a href="{% url 'historia_y_guia' %}">Nosotros</a>
         </nav>
     </header>
