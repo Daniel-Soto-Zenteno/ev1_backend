@@ -6,7 +6,7 @@ Tienda de perfumes de Calbuco, Chile. Continuación del proyecto de Evaluación 
 
 - catalogo: listado público y CRUD de perfumes para administradores.
 - nosotros: historia, valores y guía de perfumes.
-- contacto: módulo a integrar con el compañero responsable.
+- contacto: formulario público de consultas y gestión de mensajes en Django Admin.
 
 ## Instalación en Windows
 
@@ -61,12 +61,13 @@ previa, identificadores inexistentes con respuesta 404 y escritura exclusiva par
 ## Pruebas
 
 ```powershell
-python manage.py test catalogo
+python manage.py test catalogo contacto
 ```
 
 Django crea una base temporal para las pruebas: el usuario PostgreSQL necesita
 permiso para crearla. Las 9 pruebas pasaron en una base SQLite aislada en memoria.
-La conexión y las pruebas reales en PostgreSQL siguen pendientes.
+Contacto incluye cuatro pruebas adicionales de formulario, validación, campos
+protegidos y CSRF. La conexión y las pruebas reales en PostgreSQL siguen pendientes.
 
 ## Entrega y equipo
 
