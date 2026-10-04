@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Nuestros Servicios - Parfums Calbuco{% endblock %}
+
+{% block content %}
+<section style="max-width: 900px; margin: 0 auto; padding: 20px;">
+    <h2>Nuestros Servicios</h2>
+    <p>Conoce los beneficios y servicios exclusivos que ofrecemos para ti:</p>
+
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+        {% for servicio in servicios %}
+            <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; width: 260px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+                <h3 style="color: #2c3e50;">{{ servicio.titulo }}</h3>
+                <p>{{ servicio.descripcion }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
