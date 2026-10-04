@@ -1,15 +1,23 @@
 {% extends "base.html" %}
-
 {% block title %}Nosotros - Parfums D' Parfums{% endblock %}
-
 {% block content %}
+<section class="intro">
+    <p class="eyebrow">Nuestra perfumería</p>
     <h2>Quiénes somos</h2>
-    <p>Somos una perfumería fundada en {{ anio_fundacion }}, con base en Calbuco, Chile.</p>
-
-    <h3>Nuestros valores</h3>
-    <ul>
-        {% for valor in valores %}
-            <li>{{ valor }}</li>
-        {% endfor %}
-    </ul>
+    <p>Somos Parfums D' Parfums, una perfumería fundada en {{ anio_fundacion }} en Calbuco, Chile.</p>
+    <p>En nuestro catálogo encontrarás perfumes réplica para comparar fragancias, formatos, precios y disponibilidad.</p>
+    <a class="button" href="{% url 'lista_perfumes' %}">Explorar el catálogo</a>
+</section>
+<section>
+    <h2>Nuestros valores</h2>
+    <ul class="values">{% for valor in valores %}<li>{{ valor }}</li>{% endfor %}</ul>
+</section>
+<section>
+    <h2>Una guía para elegir y cuidar tu fragancia</h2>
+    <div class="cards">
+    {% for titulo, descripcion in guia %}
+        <article class="card"><h3>{{ titulo }}</h3><p>{{ descripcion }}</p></article>
+    {% endfor %}
+    </div>
+</section>
 {% endblock %}
