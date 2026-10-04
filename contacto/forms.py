@@ -6,7 +6,13 @@ class ContactoForm(forms.ModelForm):
     class Meta:
         model = Contacto
         fields = ['nombre', 'email', 'telefono', 'asunto', 'mensaje']
-        widgets = {'mensaje': forms.Textarea(attrs={'rows': 5})}
+        widgets = {
+            'nombre': forms.TextInput(attrs={'placeholder': 'Tu nombre'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'tucorreo@ejemplo.com'}),
+            'telefono': forms.TextInput(attrs={'placeholder': 'Opcional'}),
+            'asunto': forms.TextInput(attrs={'placeholder': 'Asunto'}),
+            'mensaje': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Escribe tu mensaje...'}),
+        }
         help_texts = {'telefono': 'Opcional.', 'asunto': 'Opcional.', 'mensaje': 'Escribe al menos 10 caracteres.'}
 
     def clean_nombre(self):

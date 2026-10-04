@@ -12,3 +12,7 @@ def contacto_view(request):
         messages.success(request, 'Tu consulta quedó registrada correctamente.')
         return redirect('contacto:contacto_formulario')
     return render(request, 'contacto/contacto_form.html', {'form': form})
+
+
+def contacto_exito_view(request):
+    return render(request, 'contacto/contacto_exito.html')

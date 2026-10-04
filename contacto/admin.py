@@ -9,3 +9,6 @@ class ContactoAdmin(admin.ModelAdmin):
     list_filter = ['atendido', 'fecha_creacion']
     search_fields = ['nombre', 'email', 'asunto', 'mensaje']
     readonly_fields = ['fecha_creacion']
+
+    list_editable = ['atendido']
+    ordering = ['-fecha_creacion']
