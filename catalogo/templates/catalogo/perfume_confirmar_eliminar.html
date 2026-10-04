@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Eliminar perfume{% endblock %}
+{% block content %}
+<section class="form-panel">
+<h2>Confirmar eliminación</h2>
+<p>¿Quieres eliminar «{{ perfume.nombre }}» del catálogo?</p>
+<p>Esta acción no se puede deshacer.</p>
+<form method="post">
+    {% csrf_token %}
+    <div class="actions">
+        <button class="danger" type="submit">Confirmar eliminación</button>
+        <a href="{% url 'lista_perfumes' %}">Cancelar</a>
+    </div>
+</form>
+</section>
+{% endblock %}

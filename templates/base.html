@@ -4,19 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Parfums D' Parfums{% endblock %}</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; color: #29252c; background: #faf7f2; font: 17px/1.6 system-ui, sans-serif; }
+        header, main, footer { max-width: 1100px; margin: auto; padding: 24px; }
+        header h1 { font: 38px Georgia, serif; margin: 0 0 16px; }
+        h2 { font: 32px Georgia, serif; } h3 { font: 24px Georgia, serif; }
+        a { color: #6c3b55; } nav a { display: inline-block; padding: 6px; }
+        section { margin-bottom: 32px; } .intro { padding: 24px 0; }
+        .eyebrow { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 20px; }
+        .card, .form-panel { background: white; padding: 24px; border: 1px solid #e4dbd4; border-radius: 12px; }
+        .form-panel { max-width: 680px; margin: 24px auto; }
+        .price { font-size: 22px; font-weight: bold; } .badge { background: #f1dfbe; padding: 4px 12px; border-radius: 20px; }
+        .actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+        button, .button { display: inline-block; padding: 10px 18px; border: 0; border-radius: 6px; background: #6c3b55; color: white; font: inherit; text-decoration: none; cursor: pointer; }
+        .danger { background: #9d2929; } label { display: block; font-weight: 600; }
+        input:not([type=checkbox]), select, textarea { width: 100%; padding: 10px; border: 1px solid #a79caa; border-radius: 5px; font: inherit; }
+        .errorlist { color: #9d2929; } .helptext { display: block; font-size: 14px; }
+        .notice { background: #e5f0e7; padding: 12px 18px; border-radius: 6px; }
+        hr { border: 0; border-top: 1px solid #e4dbd4; } footer { font-size: 14px; }
+        :focus-visible { outline: 3px solid #be9149; outline-offset: 3px; }
+    </style>
 </head>
 <body>
     <header>
         <h1>Parfums D' Parfums</h1>
         <nav>
             <a href="{% url 'lista_perfumes' %}">Catálogo</a> |
-            <a href="{% url 'contacto:contacto_formulario' %}">Contacto</a> |
+<<<<<<< HEAD
+            {% url 'contacto:contacto_formulario' as contacto_url %}
+            <a href="{{ contacto_url|default:'/contacto/' }}">Contacto</a> |
+=======
+            <a href="{% url 'contacto:formulario' %}">Contacto</a> |
+>>>>>>> feature/contacto
             <a href="{% url 'historia_y_guia' %}">Nosotros</a>
         </nav>
     </header>
     <hr>
 
     <main>
+        {% for message in messages %}<p class="notice" role="status">{{ message }}</p>{% endfor %}
         {% block content %}
         {% endblock %}
     </main>

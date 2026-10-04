@@ -1,27 +1,22 @@
 {% extends "base.html" %}
-
+{% block title %}Contacto - Parfums D' Parfums{% endblock %}
 {% block content %}
-<div class="container my-5" style="max-width: 600px;">
-  <h1 class="mb-4">Contáctanos</h1>
-
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
-  {% endif %}
-
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {% for field in form %}
-      <div class="mb-3">
-        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-        {{ field }}
-        {% if field.errors %}
-          <div class="text-danger small">{{ field.errors }}</div>
-        {% endif %}
-      </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Enviar mensaje</button>
-  </form>
-</div>
+<section class="intro">
+    <p class="eyebrow">Conversemos</p>
+    <h2>Contacta con nuestra perfumería</h2>
+    <p>¿Tienes dudas sobre una fragancia, su formato o disponibilidad? Déjanos tu consulta.</p>
+    <p>Parfums D' Parfums · Calbuco, Chile.</p>
+</section>
+<section class="form-panel">
+    <h3>Envíanos un mensaje</h3>
+    <p>Nombre, correo electrónico y mensaje son obligatorios.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="actions">
+            <button type="submit">Enviar consulta</button>
+            <a href="{% url 'lista_perfumes' %}">Volver al catálogo</a>
+        </div>
+    </form>
+</section>
 {% endblock %}

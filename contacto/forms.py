@@ -1,39 +1,28 @@
 from django import forms
-
 from .models import Contacto
 
 
 class ContactoForm(forms.ModelForm):
     class Meta:
         model = Contacto
-        fields = ["nombre", "email", "telefono", "asunto", "mensaje"]
+        fields = ['nombre', 'email', 'telefono', 'asunto', 'mensaje']
         widgets = {
-            "nombre": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Tu nombre",
-            }),
-            "email": forms.EmailInput(attrs={
-                "class": "form-control",
-                "placeholder": "tucorreo@ejemplo.com",
-            }),
-            "telefono": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Opcional",
-            }),
-            "asunto": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Asunto",
-            }),
-            "mensaje": forms.Textarea(attrs={
-                "class": "form-control",
-                "rows": 5,
-                "placeholder": "Escribe tu mensaje...",
-            }),
+            'nombre': forms.TextInput(attrs={'placeholder': 'Tu nombre'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'tucorreo@ejemplo.com'}),
+            'telefono': forms.TextInput(attrs={'placeholder': 'Opcional'}),
+            'asunto': forms.TextInput(attrs={'placeholder': 'Asunto'}),
+            'mensaje': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Escribe tu mensaje...'}),
         }
-        labels = {
-            "nombre": "Nombre",
-            "email": "Correo electrónico",
-            "telefono": "Teléfono",
-            "asunto": "Asunto",
-            "mensaje": "Mensaje",
-        }
+        help_texts = {'telefono': 'Opcional.', 'asunto': 'Opcional.', 'mensaje': 'Escribe al menos 10 caracteres.'}
+
+    def clean_nombre(self):
+        nombre = self.cleaned_data['nombre'].strip()
+        if len(nombre) < 2:
+            raise forms.ValidationError('Escribe un nombre de al menos 2 caracteres.')
+        return nombre
+
+    def clean_mensaje(self):
+        mensaje = self.cleaned_data['mensaje'].strip()
+        if len(mensaje) < 10:
+            raise forms.ValidationError('El mensaje debe tener al menos 10 caracteres.')
+        return mensaje
