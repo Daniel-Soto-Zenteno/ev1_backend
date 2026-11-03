@@ -1,9 +1,3 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block title %}Consulta registrada{% endblock %}
-{% block content %}
-<section class="form-panel">
-<h2>Consulta registrada</h2>
-<p>Puedes enviar una consulta desde nuestro formulario de contacto.</p>
-<a href="{% url 'contacto:contacto_formulario' %}">Ir al formulario</a>
-</section>
-{% endblock %}
+{% block content %}<section class="form-page frame"><div class="form-intro"><h1>Consulta registrada</h1><p>Puedes enviar una consulta desde nuestro formulario de contacto.</p><a class="button" href="{% url 'contacto:contacto_formulario' %}">Ir al formulario <svg class="icon"><use href="#i-arrow"/></svg></a></div></section>{% endblock %}

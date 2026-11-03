@@ -89,3 +89,15 @@ Resultado local del 03-11-2026: 35 pruebas aprobadas sobre PostgreSQL, sin migra
 Importar `docs/api_perfumes.postman_collection.json` en Postman. Configurar las variables de la colección `base_url`, `username` y `password` solo localmente y usar un administrador de pruebas. Ejecutar en orden con el servidor encendido; la colección crea y elimina un perfume de demostración y conserva los tokens solo en las variables locales de Postman. No compartir/exportar valores reales de credenciales o tokens. Capturar los resultados con esos valores ocultos para el informe.
 
 Revisión de cumplimiento y pendientes: [Evaluación 3](docs/evaluacion_3.md). Las pruebas automáticas y la colección no sustituyen las capturas y el informe exigidos por la pauta.
+
+## Catálogo e imágenes de referencia
+
+Después de aplicar las migraciones, puedes cargar las ocho fragancias y sus fotografías desde los archivos incluidos en el proyecto:
+
+```powershell
+python manage.py cargar_catalogo
+```
+
+El comando puede repetirse: crea únicamente productos faltantes y repone imágenes ausentes. Conserva precios, disponibilidad y fotografías existentes. Los productos nuevos se crean como agotados hasta confirmar inventario. Las fotos se copian al almacenamiento local de imágenes (`media/perfumes/`); los originales incluidos permanecen en los archivos estáticos. Los enlaces de las marcas se conservan en `catalogo/data/catalogo.json`. Son imágenes de referencia del fabricante, no fotografías del inventario de la tienda.
+
+Los cuatro precios incorporados el 03-11-2026 corresponden al punto medio de dos ofertas chilenas del mismo formato, redondeado a los $100 más cercanos. Son valores de catálogo editables desde administración.

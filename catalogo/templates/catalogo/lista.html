@@ -1,38 +1,50 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static catalogo_ui %}
 {% block title %}{{ titulo }} - {{ empresa }}{% endblock %}
 {% block content %}
-<section class="intro">
-    <p class="eyebrow">Encuentra tu próxima fragancia</p>
-    <h2>{{ titulo }}</h2>
-    <p>{{ total_productos }} perfume{{ total_productos|pluralize:"s" }} en el catálogo.</p>
-    {% if hay_ofertas %}<p>Descubre nuestras fragancias destacadas.</p>{% endif %}
-    {% if user.is_staff %}
-        <a class="button" href="{% url 'perfume_crear' %}">Agregar perfume</a>
-    {% else %}
-        <a href="{% url 'admin:login' %}?next={{ request.path|urlencode }}">Acceso de administración</a>
-    {% endif %}
+{% if not filtros_activos %}
+<section class="campaign" aria-labelledby="campaign-title">
+  <img class="campaign-image" src="{% static 'catalogo/images/campana-le-male.jpg' %}" alt="Campaña oficial Le Male Le Parfum de Jean Paul Gaultier" width="1900" height="1510" fetchpriority="high">
+  <div class="campaign-shade"></div>
+  <div class="campaign-content frame">
+    <h1 id="campaign-title">Encuentra tu<br>fragancia.</h1>
+    <p>Perfumes réplica en Calbuco.<br>Elige el aroma que va contigo.</p>
+    <a class="button button-white" href="#catalogo">Explorar catálogo <svg class="icon"><use href="#i-arrow"/></svg></a>
+  </div>
 </section>
-<div class="cards">
-{% for perfume in perfumes %}
-    <article class="card">
-        {% if perfume.imagen %}
-        <img src="{{ perfume.imagen.url }}" alt="{{ perfume.nombre }}" loading="lazy" style="width:100%;height:220px;object-fit:contain;border-radius:8px;">
-        {% endif %}
-        <p class="eyebrow">{{ perfume.get_categoria_display }}</p>
-        <h3>{{ perfume.nombre }}</h3>
-        {% if perfume.destacado %}<span class="badge">Destacado</span>{% endif %}
-        <p>Formato: {{ perfume.ml }} ml</p>
-        <p class="price">${{ perfume.precio }} CLP</p>
-        <p>{% if perfume.en_stock %}Disponible{% else %}Agotado{% endif %}</p>
-        {% if user.is_staff %}
-        <div class="actions">
-            <a href="{% url 'perfume_editar' perfume.pk %}">Editar</a>
-            <a href="{% url 'perfume_eliminar' perfume.pk %}">Eliminar</a>
-        </div>
-        {% endif %}
+{% endif %}
+<section class="catalog-section frame" id="catalogo" aria-labelledby="catalog-title">
+  <div class="catalog-heading"><div>{% if filtros_activos %}<h1 id="catalog-title">Encuentra tu perfume</h1>{% else %}<h2 id="catalog-title">Nuestro catálogo</h2>{% endif %}<p>{{ total_productos }} perfume{{ total_productos|pluralize:'s' }}{% if filtros_activos %} encontrado{{ total_productos|pluralize:'s' }}{% else %} para descubrir{% endif %}.</p></div>{% if user.is_staff %}<a class="button" href="{% url 'perfume_crear' %}">Agregar perfume <svg class="icon"><use href="#i-arrow"/></svg></a>{% endif %}</div>
+  <div class="catalog-toolbar">
+    <nav class="category-nav" aria-label="Categorías de perfumes">
+      <a href="{% url 'lista_perfumes' %}#catalogo" {% if not categoria_actual %}aria-current="true"{% endif %}>Todos</a>
+      {% for valor, etiqueta in categorias %}<a href="?categoria={{ valor|urlencode }}#catalogo" {% if categoria_actual == valor %}aria-current="true"{% endif %}>{{ etiqueta }}</a>{% endfor %}
+    </nav>
+    <details class="filter-panel"{% if filtros_activos %} open{% endif %}>
+      <summary>Filtrar y ordenar <svg class="icon"><use href="#i-filter"/></svg></summary>
+      <form class="filter-form" method="get" action="{% url 'lista_perfumes' %}#catalogo">
+        <div class="field"><label for="filter-search">Nombre de la fragancia</label><input id="filter-search" type="search" name="q" value="{{ busqueda }}" placeholder="¿Qué perfume buscas?" maxlength="120"></div>
+        <div class="field"><label for="filter-category">Categoría</label><select id="filter-category" name="categoria"><option value="">Todas las categorías</option>{% for valor, etiqueta in categorias %}<option value="{{ valor }}"{% if categoria_actual == valor %} selected{% endif %}>{{ etiqueta }}</option>{% endfor %}</select></div>
+        <div class="field"><label for="filter-order">Ordenar por</label><select id="filter-order" name="orden"><option value="nombre"{% if orden_actual == 'nombre' %} selected{% endif %}>Nombre: A a Z</option><option value="precio_asc"{% if orden_actual == 'precio_asc' %} selected{% endif %}>Menor precio</option><option value="precio_desc"{% if orden_actual == 'precio_desc' %} selected{% endif %}>Mayor precio</option><option value="recientes"{% if orden_actual == 'recientes' %} selected{% endif %}>Más recientes</option></select></div>
+        <label class="checkbox-label"><input type="checkbox" name="disponible" value="1"{% if solo_disponibles %} checked{% endif %}> Solo disponibles</label>
+        <div class="form-actions"><button class="button" type="submit">Aplicar filtros</button><a class="text-link" href="{% url 'lista_perfumes' %}#catalogo">Limpiar filtros</a></div>
+      </form>
+    </details>
+  </div>
+  {% if filtros_activos %}<p class="results-note">{% if busqueda %}Resultados para «{{ busqueda }}». {% endif %}{% if categoria_actual %}{{ categoria_actual }}. {% endif %}{% if solo_disponibles %}Solo perfumes disponibles.{% endif %}</p>{% endif %}
+  <div class="product-grid">
+    {% for perfume in perfumes %}
+    <article class="product">
+      <div class="product-image{% if not perfume.imagen|archivo_disponible %} product-image-missing{% endif %}">
+        {% if perfume.imagen|archivo_disponible %}<img src="{{ perfume.imagen.url }}" alt="{{ perfume.nombre }}" width="640" height="720" loading="lazy">{% else %}<div class="missing-image"><span class="missing-brand">Parfums<br>D’ Parfums</span><span>Fotografía no disponible</span></div>{% endif %}
+        {% if perfume.destacado %}<span class="product-highlight">Destacado</span>{% endif %}
+        <span class="product-format">{{ perfume.ml }} ml</span>
+      </div>
+      <div class="product-info"><p class="product-price">${{ perfume.precio|pesos_clp }} <span>CLP</span></p><h3>{{ perfume.nombre }}</h3><p class="product-category">{{ perfume.get_categoria_display }} · Perfume réplica</p><p class="stock{% if not perfume.en_stock %} unavailable{% endif %}"><span></span>{% if perfume.en_stock %}Disponible{% else %}Agotado{% endif %}</p>
+      {% if user.is_staff %}<div class="product-admin"><a href="{% url 'perfume_editar' perfume.pk %}">Editar</a><a class="danger-link" href="{% url 'perfume_eliminar' perfume.pk %}">Eliminar</a></div>{% else %}<a class="product-enquiry" href="{% url 'contacto:formulario' %}">Consultar fragancia <svg class="icon"><use href="#i-arrow"/></svg></a>{% endif %}</div>
     </article>
-{% empty %}
-    <p>No hay perfumes registrados todavía.</p>
-{% endfor %}
-</div>
+    {% empty %}<div class="empty-state"><h2>{% if filtros_activos %}Sin coincidencias{% else %}El catálogo está por llegar{% endif %}</h2><p>{% if filtros_activos %}Prueba con otro nombre o elimina algún filtro para ver más fragancias.{% else %}No hay perfumes registrados todavía. Puedes escribirnos para consultar disponibilidad.{% endif %}</p><a class="button" href="{% if filtros_activos %}{% url 'lista_perfumes' %}#catalogo{% else %}{% url 'contacto:formulario' %}{% endif %}">{% if filtros_activos %}Ver todo el catálogo{% else %}Contactar{% endif %}<svg class="icon"><use href="#i-arrow"/></svg></a></div>{% endfor %}
+  </div>
+</section>
+<section class="contact-band"><div class="frame contact-band-inner"><div><h2>¿Aún no sabes cuál elegir?</h2><p>Cuéntanos qué aromas te gustan. Te ayudamos a encontrar tu próxima fragancia.</p></div><a class="button" href="{% url 'contacto:formulario' %}">Recibir asesoría <svg class="icon"><use href="#i-arrow"/></svg></a></div></section>
 {% endblock %}
