@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'contacto',
     'nosotros',
     'servicios',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
