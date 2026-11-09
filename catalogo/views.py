@@ -8,12 +8,38 @@ from .models import Perfume
 
 def lista_perfumes(request):
     perfumes = Perfume.objects.all()
+    busqueda = request.GET.get('q', '').strip()[:120]
+    categoria = request.GET.get('categoria', '')
+    if categoria not in Perfume.Categoria.values:
+        categoria = ''
+    ordenes = {
+        'nombre': ('nombre', 'pk'),
+        'precio_asc': ('precio', 'nombre', 'pk'),
+        'precio_desc': ('-precio', 'nombre', 'pk'),
+        'recientes': ('-creado', '-pk'),
+    }
+    orden = request.GET.get('orden', 'nombre')
+    if orden not in ordenes:
+        orden = 'nombre'
+    solo_disponibles = request.GET.get('disponible') == '1'
+    if busqueda:
+        perfumes = perfumes.filter(nombre__icontains=busqueda)
+    if categoria:
+        perfumes = perfumes.filter(categoria=categoria)
+    if solo_disponibles:
+        perfumes = perfumes.filter(en_stock=True)
+    perfumes = perfumes.order_by(*ordenes[orden])
     return render(request, 'catalogo/lista.html', {
         'titulo': 'Catálogo de fragancias',
         'empresa': "Parfums D' Parfums",
         'perfumes': perfumes,
         'total_productos': perfumes.count(),
-        'hay_ofertas': perfumes.filter(destacado=True, en_stock=True).exists(),
+        'busqueda': busqueda,
+        'categorias': Perfume.Categoria.choices,
+        'categoria_actual': categoria,
+        'orden_actual': orden,
+        'solo_disponibles': solo_disponibles,
+        'filtros_activos': bool(busqueda or categoria or solo_disponibles or orden != 'nombre'),
     })
 
 

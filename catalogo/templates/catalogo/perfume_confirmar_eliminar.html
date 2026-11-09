@@ -1,16 +1,6 @@
-{% extends "base.html" %}
-{% block title %}Eliminar perfume{% endblock %}
+{% extends 'base.html' %}
+{% load catalogo_ui %}
+{% block title %}Eliminar perfume - Parfums D’ Parfums{% endblock %}
 {% block content %}
-<section class="form-panel">
-<h2>Confirmar eliminación</h2>
-<p>¿Quieres eliminar «{{ perfume.nombre }}» del catálogo?</p>
-<p>Esta acción no se puede deshacer.</p>
-<form method="post">
-    {% csrf_token %}
-    <div class="actions">
-        <button class="danger" type="submit">Confirmar eliminación</button>
-        <a href="{% url 'lista_perfumes' %}">Cancelar</a>
-    </div>
-</form>
-</section>
+<section class="delete-page frame"><a class="back-link" href="{% url 'lista_perfumes' %}">Volver al catálogo</a><h1>Confirmar eliminación</h1><p class="lead">¿Quieres eliminar «{{ perfume.nombre }}» del catálogo?</p><div class="delete-summary"><p>{{ perfume.get_categoria_display }} · {{ perfume.ml }} ml</p><p class="product-price">${{ perfume.precio|pesos_clp }} CLP</p></div><p>Esta acción no se puede deshacer.</p><form method="post">{% csrf_token %}<div class="form-actions"><button class="button button-danger" type="submit">Confirmar eliminación</button><a class="text-link" href="{% url 'lista_perfumes' %}">Cancelar</a></div></form></section>
 {% endblock %}

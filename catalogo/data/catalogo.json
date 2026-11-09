@@ -1,0 +1,66 @@
+[
+  {
+    "nombre": "Black Afggano",
+    "categoria": "Masculino",
+    "precio": 140000,
+    "ml": 30,
+    "imagen": "black-afgano.jpg",
+    "fuente_imagen": "https://nasomatto.com/products/black-afgano"
+  },
+  {
+    "nombre": "Halloween Man X",
+    "categoria": "Masculino",
+    "precio": 35000,
+    "ml": 100,
+    "imagen": "halloween-man-x.jpg",
+    "fuente_imagen": "https://halloweenperfumes.com/en/helloween-man/158-halloween-man-x-eau-de-toilette.html"
+  },
+  {
+    "nombre": "Jean Paul Gaultier Le Male Le Parfum",
+    "categoria": "Masculino",
+    "precio": 130000,
+    "ml": 125,
+    "imagen": "le-male-le-parfum.png",
+    "fuente_imagen": "https://www.jeanpaulgaultier.com/ww/en/p/range-le-male/le-male-le-parfum-eau-de-parfum-intense-000000000065156533"
+  },
+  {
+    "nombre": "Maison Margiela By The Fireplace",
+    "categoria": "Masculino",
+    "precio": 170000,
+    "ml": 100,
+    "imagen": "by-the-fireplace.webp",
+    "fuente_imagen": "https://www.maisonmargiela-fragrances.eu/en_GB/fragrances/discover/replica-memories/replica-by-the-fireplace/MM005.html"
+  },
+  {
+    "nombre": "French Avenue Liquid Brun EDP",
+    "categoria": "Unisex",
+    "precio": 30000,
+    "ml": 100,
+    "imagen": "liquid-brun.jpg",
+    "fuente_imagen": "https://sa.frenchavenue.com/products/liquid-brun"
+  },
+  {
+    "nombre": "Valentino Uomo Born In Roma Intense EDP",
+    "categoria": "Masculino",
+    "precio": 153500,
+    "ml": 100,
+    "imagen": "valentino-intense.webp",
+    "fuente_imagen": "https://www.valentino-beauty.us/fragrances/fragrances-men/born-in-roma-uomo-intense/born-in-roma-uomo-eau-de-parfum-intense-3614273790826.html"
+  },
+  {
+    "nombre": "Jean Paul Gaultier Le Beau Le Parfum",
+    "categoria": "Masculino",
+    "precio": 125900,
+    "ml": 125,
+    "imagen": "le-beau-le-parfum.png",
+    "fuente_imagen": "https://www.jeanpaulgaultier.com/fr/fr/p/gamme-le-beau/le-beau-le-parfum-eau-de-parfum-intense-000000000065180318"
+  },
+  {
+    "nombre": "Jean Paul Gaultier Le Male Elixir Parfum",
+    "categoria": "Masculino",
+    "precio": 120700,
+    "ml": 125,
+    "imagen": "le-male-elixir.png",
+    "fuente_imagen": "https://www.jeanpaulgaultier.com/ww/en/p/range-le-male/le-male-elixir-parfum-000000000065189084"
+  }
+]

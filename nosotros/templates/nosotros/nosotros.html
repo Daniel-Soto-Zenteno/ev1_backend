@@ -1,23 +1,8 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}Nosotros - Parfums D' Parfums{% endblock %}
 {% block content %}
-<section class="intro">
-    <p class="eyebrow">Nuestra perfumería</p>
-    <h2>Quiénes somos</h2>
-    <p>Somos Parfums D' Parfums, una perfumería fundada en {{ anio_fundacion }} en Calbuco, Chile.</p>
-    <p>En nuestro catálogo encontrarás perfumes réplica para comparar fragancias, formatos, precios y disponibilidad.</p>
-    <a class="button" href="{% url 'lista_perfumes' %}">Explorar el catálogo</a>
-</section>
-<section>
-    <h2>Nuestros valores</h2>
-    <ul class="values">{% for valor in valores %}<li>{{ valor }}</li>{% endfor %}</ul>
-</section>
-<section>
-    <h2>Una guía para elegir y cuidar tu fragancia</h2>
-    <div class="cards">
-    {% for titulo, descripcion in guia %}
-        <article class="card"><h3>{{ titulo }}</h3><p>{{ descripcion }}</p></article>
-    {% endfor %}
-    </div>
-</section>
+<section class="about-opening frame"><div><h1>Desde Calbuco,<br>con esencia.</h1><p class="lead">Somos Parfums D' Parfums, una perfumería fundada en {{ anio_fundacion }} en Calbuco, Chile.</p><p>En nuestro catálogo encontrarás perfumes réplica para comparar fragancias, formatos, precios y disponibilidad.</p><a class="button" href="{% url 'lista_perfumes' %}">Explorar el catálogo <svg class="icon"><use href="#i-arrow"/></svg></a></div><figure class="about-image"><img src="{% static 'catalogo/images/campana-le-male.jpg' %}" width="1900" height="1510" alt="Fotografía de la campaña oficial Le Male Le Parfum de Jean Paul Gaultier" loading="lazy"><figcaption>Una pausa para encontrar tu fragancia.</figcaption></figure></section>
+<section class="values-section"><div class="frame values-inner"><h2>Nuestros valores</h2><ul>{% for valor in valores %}<li>{{ valor }}</li>{% endfor %}</ul></div></section>
+<section class="guide-section frame"><div class="section-heading"><h2>Elige bien.<br>Cuida tu fragancia.</h2><p>Una guía para encontrar tu aroma y conservarlo por más tiempo.</p></div><div class="guide-list">{% for titulo, descripcion in guia %}<article><h3>{{ titulo }}</h3><p>{{ descripcion }}</p></article>{% endfor %}</div></section>
 {% endblock %}
